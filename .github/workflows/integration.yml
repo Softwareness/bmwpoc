@@ -20,12 +20,12 @@ jobs:
 
     - name: Terraform Init
       run: terraform init
-      working-directory: ./customers/${{ github.event.inputs.customer_id }}/int
+      working-directory: ./${{ github.event.inputs.customer_id }}/int
 
     - name: Terraform Plan
       run: terraform plan
-      working-directory: ./customers/${{ github.event.inputs.customer_id }}/int
+      working-directory: ./${{ github.event.inputs.customer_id }}/int
 
     - name: Terraform Apply
       run: terraform apply -auto-approve
-      working-directory: ./customers/${{ github.event.inputs.customer_id }}/int
+      working-directory: ./${{ github.event.inputs.customer_id }}/int
