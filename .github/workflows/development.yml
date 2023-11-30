@@ -35,3 +35,14 @@ jobs:
     - name: Terraform Apply
       run: terraform apply -auto-approve
       working-directory: ./${{ github.event.inputs.customer_id }}/dev
+
+    - name: Print AWS Environment Variables
+      run: |
+        echo "AWS Access Key: ${{ secrets.AWS_ACCESS_KEY_ID }}"
+        echo "AWS Secret Access Key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+        
+    - name: Test AWS CLI
+      run: aws s3 ls
+
+
+    
