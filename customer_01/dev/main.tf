@@ -23,7 +23,7 @@ resource "aws_security_group" "allow_postgresql" {
 }
 
 module "db_instance" {
-  source = "../modules/db_instance"
+  source = "../../modules/db_instance"
     identifier           = local.name
     allocated_storage    = var.allocated_storage
     storage_type         = var.storage_type
@@ -43,7 +43,7 @@ module "db_instance" {
 # DB Database
 ################################################################################
 module "db_database" {
-  source = "../modules/db_database"
+  source = "../../modules/db_database"
     db_name                 = var.db_name
     owner                   = var.owner
     tablespace_name         = var.tablespace_name
@@ -63,7 +63,7 @@ module "db_database" {
 # DB Database Parameter Group
 ################################################################################
 module "db_parameter_group" {
-  source = "../modules/db_parameter_group"
+  source = "../../modules/db_parameter_group"
     name = local.name
     family = var.family
 

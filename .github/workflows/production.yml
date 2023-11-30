@@ -1,0 +1,54 @@
+name: Production Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      customerDir:
+        description: 'Customer Directory'
+        required: true
+        default: 'customer_01'
+
+env:
+  TF_VERSION: '1.1.0' # Specificeer de Terraform versie
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    name: Terraform Plan and Apply for Production
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./${{ github.event.inputs.customerDir }}/prd
+
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: ./${{ github.event.inputs.customerDir }}/prd
+
+    - name: Terraform Plan
+      run: terraform plan
+      working-directory: ./${{ github.event.inputs.customerDir }}/prd
+
+    # Voor productie, overweeg een goedkeuringsstap voor het uitvoeren van Terraform Apply
+    - name: Manual Approval
+      uses: actions/github-script@v0.9.0
+      with:
+        script: |
+          const { issue } = context.payload;
+          await github.issues.createComment({
+            issue_number: issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: '👍 Deployment is goedgekeurd!'
+          });
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      working-directory: ./${{ github.event.inputs.customerDir }}/prd

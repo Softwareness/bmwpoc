@@ -18,13 +18,11 @@ variable "app_id" {
 variable "allocated_storage" {
   description = "allocated_storage"
   type = number
-  default = 20
 }
 
 variable "storage_type" {
   description = "storage_type"
   type = string
-  default = "gp2"
 }
 
 variable "engine" {
@@ -36,19 +34,16 @@ variable "engine" {
 variable "family" {
   description = "Postgess family"
   type = string
-  default = "postgres15"
 }
 
 variable "engine_version" {
   description = "engine_version"
   type = string
-  default = "15"
-}
+  }
 
 variable "instance_class" {
   description = "instance_class"
   type = string
-  default = "db.t3.micro"
 }
 
 variable "username" {
@@ -66,7 +61,6 @@ variable "password" {
 variable "db_name" {
     description = "Name of the database"
     type = string
-    default = "myDB"
 }
 
 variable "owner" {
