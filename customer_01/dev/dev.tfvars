@@ -1,4 +1,4 @@
-allocated_storage = 20
+allocated_storage = 25
 storage_type = "gp2"
 instance_class = "db.t3.micro"
 environment = "dvl"
@@ -7,3 +7,4 @@ app_id   = "APP-113642"
 family = "postgres15"
 lc_collate = "de_DE.utf8"
 db_name = "applicationdb"
+engine_version = 15

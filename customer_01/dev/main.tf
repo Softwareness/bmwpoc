@@ -30,8 +30,8 @@ module "db_instance" {
     engine               = var.engine
     engine_version       = var.engine_version
     instance_class       = var.instance_class
-    username             = var.username
-    password             = var.password # Verander dit naar een sterk wachtwoord
+    username             = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["username"]
+    password             = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["password"]
     parameter_group_name = module.db_parameter_group.db_parameter_group
     vpc_security_group_ids = aws_security_group.allow_postgresql.id
     db_subnet_group_name = aws_db_subnet_group.default.id
@@ -71,4 +71,15 @@ module "db_parameter_group" {
       name = var.encoding
     } ]
   tags                 = local.tags
+}
+
+################################################################################
+# DB Database credentials
+################################################################################
+data "aws_secretsmanager_secret" "db_credentials" {
+  name = "postgres/credentials"
+}
+
+data "aws_secretsmanager_secret_version" "current" {
+  secret_id = data.aws_secretsmanager_secret.db_credentials.id
 }

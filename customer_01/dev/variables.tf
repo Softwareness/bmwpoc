@@ -46,17 +46,17 @@ variable "instance_class" {
   type = string
 }
 
-variable "username" {
-  description = "username"
-  type = string
-  default = "ferry"
-}
+# variable "username" {
+#   description = "username"
+#   type = string
+#   # default = "ferry"
+# }
 
-variable "password" {
-  description = "password"
-  type = string
-  default = "kjsdgkjfdskj^^%$$"
-}
+# variable "password" {
+#   description = "password"
+#   type = string
+#   # default = "kjsdgkjfdskj^^%$$"
+# }
 
 variable "db_name" {
     description = "Name of the database"
