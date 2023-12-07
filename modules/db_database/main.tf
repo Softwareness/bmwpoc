@@ -19,3 +19,4 @@ resource "postgresql_database" "this" {
     lc_collate              = var.lc_collate
     lc_ctype                = var.lc_ctype
 }
+

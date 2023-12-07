@@ -1,7 +1,6 @@
 variable "aws_region" {
   type        = string
   description = "AWS region for deployment"
-  default     = "eu-west-1"
 }
 
 variable "app_name" {
@@ -28,7 +27,6 @@ variable "storage_type" {
 variable "engine" {
   description = "engine"
   type = string
-  default = "postgres"
 }
 
 variable "family" {
@@ -45,18 +43,6 @@ variable "instance_class" {
   description = "instance_class"
   type = string
 }
-
-# variable "username" {
-#   description = "username"
-#   type = string
-#   # default = "ferry"
-# }
-
-# variable "password" {
-#   description = "password"
-#   type = string
-#   # default = "kjsdgkjfdskj^^%$$"
-# }
 
 variable "db_name" {
     description = "Name of the database"
@@ -78,7 +64,6 @@ variable "tablespace_name" {
 variable "connection_limit" {
     description = "How many concurrent connections can be established to this database"
     type = number
-    default = -1
 }
 
 variable "allow_connections" {
@@ -108,7 +93,6 @@ variable "encoding" {
 variable "lc_collate" {
   description = " Collation order (LC_COLLATE) to use in the database"
   type        = string
-  default     = null
 }
 
 variable "lc_ctype" {

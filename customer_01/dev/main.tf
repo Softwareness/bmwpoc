@@ -30,8 +30,8 @@ module "db_instance" {
     engine               = var.engine
     engine_version       = var.engine_version
     instance_class       = var.instance_class
-    username             = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["username"]
-    password             = jsondecode(data.aws_secretsmanager_secret_version.current.secret_string)["password"]
+    username             = jsondecode(aws_secretsmanager_secret_version.db_secret.secret_string)["username"]
+    password             = jsondecode(aws_secretsmanager_secret_version.db_secret.secret_string)["password"]
     parameter_group_name = module.db_parameter_group.db_parameter_group
     vpc_security_group_ids = aws_security_group.allow_postgresql.id
     db_subnet_group_name = aws_db_subnet_group.default.id
@@ -46,6 +46,8 @@ module "db_database" {
   source = "../../modules/db_database"
     db_name                 = var.db_name
     owner                   = var.owner
+    username                = jsondecode(aws_secretsmanager_secret_version.db_secret.secret_string)["username"]
+    password                = jsondecode(aws_secretsmanager_secret_version.db_secret.secret_string)["password"]
     tablespace_name         = var.tablespace_name
     connection_limit        = var.connection_limit 
     allow_connections       = var.allow_connections
@@ -75,11 +77,26 @@ module "db_parameter_group" {
 
 ################################################################################
 # DB Database credentials
-################################################################################
-data "aws_secretsmanager_secret" "db_credentials" {
-  name = "postgres/credentials"
+# ################################################################################
+
+resource "aws_secretsmanager_secret" "postgres_master_account" {
+  name        = "postgres_master_account"
+  description = "Postgres master account credentials"
+    lifecycle {
+    prevent_destroy = false
+  }
 }
 
-data "aws_secretsmanager_secret_version" "current" {
-  secret_id = data.aws_secretsmanager_secret.db_credentials.id
+resource "random_password" "password" {
+  length           = 16
+  special          = true
+  override_special = "!#$%&()*+,-.:;<=>?[]^_{|}~"
+}
+
+resource "aws_secretsmanager_secret_version" "db_secret" {
+  secret_id = aws_secretsmanager_secret.postgres_master_account.id
+  secret_string = jsonencode({
+    username = "dbaasadmin1"
+    password = random_password.password.result
+  })
 }

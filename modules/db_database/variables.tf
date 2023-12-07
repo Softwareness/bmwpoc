@@ -57,13 +57,11 @@ variable "lc_ctype" {
 variable "username" {
   description = "username"
   type = string
-  default = "ferry"
 }
 
 variable "password" {
   description = "password"
   type = string
-  default = "kjsdgkjfdskj^^%$$"
 }
 
 variable "host" {

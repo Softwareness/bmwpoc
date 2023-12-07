@@ -8,3 +8,6 @@ family = "postgres15"
 lc_collate = "de_DE.utf8"
 db_name = "applicationdb"
 engine_version = 15
+aws_region = "eu-west-1"
+engine = "postgres"
+connection_limit = -1
