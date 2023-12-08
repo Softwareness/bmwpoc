@@ -6,5 +6,6 @@ locals {
     "Provisioner" = "terraform"
     "App Name"    = var.app_name
     "App-ID"      = var.app_id
+    "Test"        = "bla"
   }
 }

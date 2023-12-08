@@ -7,3 +7,6 @@ app_id   = "APP-113642"
 family = "postgres15"
 db_name = "applicationdb"
 engine_version = 15
+aws_region = "eu-west-1"
+engine = "postgres"
+connection_limit = -1
