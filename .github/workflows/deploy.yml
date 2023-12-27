@@ -1,29 +1,46 @@
 name: Terraform Workflow
 
+# on:
+#   repository_dispatch:
+#     types: [trigger-workflow]
+
+# jobs:
+#   terraform:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Checkout Repository
+#       uses: actions/checkout@v2
+
+#     - name: Configure AWS Credentials
+#       uses: aws-actions/configure-aws-credentials@v1
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: 'eu-west-1'
+
+#     - name: Terraform Init
+#       run: terraform init
+
+#     - name: Terraform Plan
+#       run: terraform plan
+
+#     - name: Terraform Apply
+#       run: terraform apply -auto-approve
+
+name: My Workflow
+
 on:
   repository_dispatch:
     types: [trigger-workflow]
 
 jobs:
-  terraform:
+  my-job:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: 'eu-west-1'
-        
-    - name: Terraform Init
-      run: terraform init
-
-    - name: Terraform Plan
-      run: terraform plan
-
-    - name: Terraform Apply
-      run: terraform apply -auto-approve
-      if: github.ref == 'refs/heads/main' && github.event_name == 'repository_dispatch'
+      - name: Handle the Payload
+        run: |
+          echo "InstanceID: ${{ github.event.client_payload.InstanceID }}"
+          echo "AppID: ${{ github.event.client_payload.AppID }}"
