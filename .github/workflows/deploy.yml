@@ -27,8 +27,6 @@ name: Terraform Workflow
 #     - name: Terraform Apply
 #       run: terraform apply -auto-approve
 
-name: My Workflow
-
 on:
   repository_dispatch:
     types: [trigger-workflow]
