@@ -105,3 +105,11 @@ variable "environment" {
   description = "Possible values are, dev, int, prd"
   type = string
 }
+
+variable "instance_id" {
+  type = string
+}
+
+variable "appd_id" {
+  type = string
+}
