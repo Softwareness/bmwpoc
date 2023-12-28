@@ -20,11 +20,12 @@ jobs:
           aws-region: 'eu-west-1'
 
       - name: Extract Terraform Variables
-        id: extract_vars
         run: |
-          echo "TF_VARS<<EOF" >> $GITHUB_ENV
-          echo '${{ github.event.client_payload }}' | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo '${{ github.event.client_payload }}' | jq -r '. | to_entries | .[] | .key + "=" + .value' >> $GITHUB_ENV
+      - name: Debug Payload
+        run: |
+          echo "Payload: ${{ github.event.client_payload }}"
+          echo '${{ github.event.client_payload }}' | jq -r '. | to_entries | .[] | .key + "=" + .value'
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
