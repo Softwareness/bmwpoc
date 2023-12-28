@@ -19,9 +19,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'eu-west-1'
 
-      - name: Extract Terraform Variables
-        run: |
-          echo '${{ github.event.client_payload }}' | jq -r '. | to_entries | .[] | .key + "=" + .value' >> $GITHUB_ENV
       - name: Debug Payload
         run: |
           echo "Payload: ${{ github.event.client_payload }}"
