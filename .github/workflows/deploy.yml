@@ -40,5 +40,5 @@ jobs:
 
       - name: Handle the Payload
         run: |
-          echo "InstanceID: ${{ github.event.client_payload.InstanceID }}"
-          echo "AppID: ${{ github.event.client_payload.AppID }}"
+          echo "InstanceID: ${{ github.event.client_payload.instance_id }}"
+          echo "AppID: ${{ github.event.client_payload.app_id }}"
