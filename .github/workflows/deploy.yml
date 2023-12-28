@@ -19,10 +19,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'eu-west-1'
 
-      - name: Debug Raw Payload
+      - name: Extract Terraform Variables
+        id: extract_vars
         run: |
-          echo "Raw Payload: ${{ github.event.client_payload }}"
-          echo '${{ github.event.client_payload }}' | jq .
+          echo "TF_VARS<<EOF" >> $GITHUB_ENV
+          echo '${{ github.event.client_payload }}' | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
