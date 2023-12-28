@@ -22,7 +22,7 @@ jobs:
       - name: Debug Payload
         run: |
           echo "Payload: ${{ github.event.client_payload }}"
-          echo '${{ github.event.client_payload }}' | jq -r '. | to_entries | .[] | .key + "=" + .value'
+          echo "Parsed Payload: ${{ fromJson(github.event.client_payload) }}"
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
