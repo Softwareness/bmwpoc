@@ -1,49 +1,3 @@
-# name: Terraform Workflow
-
-# on:
-#   repository_dispatch:
-#     types: [trigger-workflow]
-
-# jobs:
-#   terraform:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - name: Checkout Repository
-#       uses: actions/checkout@v2
-
-#     - name: Configure AWS Credentials
-#       uses: aws-actions/configure-aws-credentials@v1
-#       with:
-#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#         aws-region: 'eu-west-1'
-
-#     - name: Terraform Init
-#       run: terraform init
-
-#     - name: Terraform Plan
-#       run: terraform plan
-
-#     - name: Terraform Apply
-#       run: terraform apply -auto-approve
-
-# on:
-#   repository_dispatch:
-#     types: [trigger-workflow]
-
-# jobs:
-#   my-job:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout Repository
-#         uses: actions/checkout@v2
-
-#       - name: Handle the Payload
-#         run: |
-#           echo "InstanceID: ${{ github.event.client_payload.instance_id }}"
-#           echo "AppID: ${{ github.event.client_payload.app_id }}"
-
-
 name: Terraform Workflow
 
 on:
@@ -65,6 +19,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'eu-west-1'
 
+      - name: Extract Terraform Variables
+        id: extract_vars
+        run: |
+          echo "TF_VARS<<EOF" >> $GITHUB_ENV
+          echo '${{ github.event.client_payload }}' | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
@@ -77,4 +38,3 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve -var="instance_id=${{ github.event.client_payload.instance_id }}" -var="app_id=${{ github.event.client_payload.app_id }}"
         if: github.ref == 'refs/heads/main' && github.event_name == 'repository_dispatch'
-
