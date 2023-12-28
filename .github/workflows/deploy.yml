@@ -22,6 +22,7 @@ jobs:
       - name: Debug Raw Payload
         run: |
           echo "Raw Payload: ${{ github.event.client_payload }}"
+          echo '${{ github.event.client_payload }}' | jq .
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
